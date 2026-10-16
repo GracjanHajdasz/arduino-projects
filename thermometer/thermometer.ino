@@ -3,6 +3,7 @@
 
 #define DHTPIN 7
 #define DHTTYPE DHT11
+#define MOTORPIN 9
 
 DHT dht(DHTPIN, DHTTYPE);
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -10,6 +11,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 void setup() {
   lcd.begin(16, 2);
   dht.begin();
+  pinMode(MOTORPIN, OUTPUT);
+  analogWrite(MOTORPIN, 0);
 }
 
 void loop() {
@@ -34,4 +37,10 @@ void loop() {
   lcd.print(temperature, 1);
   lcd.print((char)223);
   lcd.print(F("C"));
+
+  if (temperature >= 25.0) {
+    analogWrite(MOTORPIN, 150);
+  } else {
+    analogWrite(MOTORPIN, 0);
+  }
 }
